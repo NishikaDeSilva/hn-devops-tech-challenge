@@ -4,6 +4,8 @@ resource "azurerm_public_ip" "az_pip" {
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
+
+  tags = var.tags
 }
 
 
@@ -18,6 +20,8 @@ resource "azurerm_network_interface" "az_nic" {
     subnet_id                     = var.subnet_id
     public_ip_address_id          = var.enable_public_access ? azurerm_public_ip.az_pip.0.id : null
   }
+
+  tags = var.tags
 }
 
 resource "azurerm_linux_virtual_machine" "az_linux_vm" {
@@ -47,4 +51,6 @@ resource "azurerm_linux_virtual_machine" "az_linux_vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
+
+  tags = var.tags
 }
