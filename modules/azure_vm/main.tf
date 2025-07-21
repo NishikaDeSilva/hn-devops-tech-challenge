@@ -1,3 +1,12 @@
+resource "azurerm_public_ip" "az_pip" {
+  count               = var.enable_public_access ? 1 : 0
+  name                = "${var.vm_name}-pip"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
+}
+
+
 resource "azurerm_network_interface" "az_nic" {
   name                = "${var.vm_name}-nic"
   location            = var.location
@@ -7,6 +16,7 @@ resource "azurerm_network_interface" "az_nic" {
     name                          = "ipconfig"
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = var.subnet_id
+    public_ip_address_id          = var.enable_public_access ? azurerm_public_ip.az_pip.0.id : null
   }
 }
 

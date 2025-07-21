@@ -37,6 +37,12 @@ variable "rsa_public_key" {
   sensitive   = true
 }
 
+variable "enable_public_access" {
+  description = "Set true if public access is enabled"
+  default     = false
+  type        = bool
+}
+
 variable "tags" {
   description = "Tags to be added in resources"
   type        = map(any)
