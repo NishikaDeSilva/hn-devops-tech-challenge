@@ -10,6 +10,8 @@ resource "azurerm_subnet" "az_pvt_subnet" {
   resource_group_name  = azurerm_resource_group.az_resource_group.name
   virtual_network_name = azurerm_virtual_network.az_vnet.name
   address_prefixes     = [local.private_sn_ip_range]
+
+  service_endpoints = ["Microsoft.Storage"]
 }
 
 resource "azurerm_subnet" "az_pub_subnet" {
