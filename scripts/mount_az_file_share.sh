@@ -2,15 +2,6 @@
 
 set -euo pipefail
 
-# ------- Host Configurations--------
-JUMPHOST_IP="172.166.112.210"
-VM_IPS="10.0.1.4 10.0.1.5"
-REMOTE_USER="adminuser"
-SSH_KEY=".ssh/hn_rsa"
-
-# ------- Storage Configurations--------
-RESOURCE_GROUP_NAME="rg-uks-demo"
-STORAGE_ACCOUNT_NAME="stuksdemo"
 # Getting args from command line
 FILE_SHARE_NAME="$1"
 MOUNT_POINT="$2"
@@ -54,8 +45,8 @@ EOF
 for ip in $VM_IPS; do
   log "Connecting to VM: $ip via bastion $JUMPHOST_IP"
 
-  if ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no -t "$REMOTE_USER@$JUMPHOST_IP" \
-    "ssh -o StrictHostKeyChecking=no -i $SSH_KEY -t $REMOTE_USER@$ip '$REMOTE_CMD'"; then
+  if ssh -i "$SSH_KEY_PATH" -o StrictHostKeyChecking=no -t "$REMOTE_USER@$JUMPHOST_IP" \
+    "ssh -o StrictHostKeyChecking=no -i $SSH_KEY_PATH -t $REMOTE_USER@$ip '$REMOTE_CMD'"; then
     log "Successfully mounted Azure File Share on $ip"
   else
     log "Failed to mount Azure File Share on $ip"
