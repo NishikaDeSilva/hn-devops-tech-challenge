@@ -17,7 +17,9 @@ challenge.
     2. Once prompted provide the location to store these keys.
 
 
-### How-To Guide
+## How-To Guide
+
+### Connect to Private instance via Jumphost
 
 1. Ideally you need to create a terraform variable (i.e. demo.tfvars) file with following vars added.
    
@@ -47,10 +49,31 @@ challenge.
 4. Since we use the same keys file for both jump host and vms, copy the private key into the jump host 
   (In a production environment we should use separate ssh keys to reduce the attack surface in case of a breach)
     ```
-    scp -i {PATH_TO_SSH_KEYS} adminuser@{jumpbox_public_ip}:~/.ssh/
+    scp -i {PATH_TO_SSH_KEYS} {user}@{jumpbox_public_ip}:~/.ssh/
     ```
-5. SSH into jump host and then into the VM
+    To test the connection SSH into jump host and then into the VM
    ```
-   ssh -i {PATH_TO_SSH_KEYS} adminuser@{jumpbox_public_ip}
-   ssh -i {PATH_TO_SSH_KEYS} adminuser@{vm_0_private_ip_address}
+   ssh -i {PATH_TO_SSH_KEYS} {user}@{jumpbox_public_ip}
+   ssh -i {PATH_TO_SSH_KEYS} {user}@{vm_0_private_ip_address}
    ```
+
+### Mount Storage account fileshare. 
+
+Once required infrastructure is ready (previous step), run the following command(s) to mount a given storage account file share to the Virtual Machines.
+
+```
+export JUMPHOST_IP="{jumpbox_public_ip}"
+export VM_IPS="{vm_0_private_ip_address} {vm_1_private_ip_address}"
+export REMOTE_USER="{user}"
+export SSH_KEY_PATH="{PATH_TO_SSH_KEYS}"
+export RESOURCE_GROUP_NAME="{resource_group}"
+export STORAGE_ACCOUNT_NAME="{storage_account_name}"
+
+./scripts/mount_az_file_share.sh {FILE_SHARE_NAME} {FILE_SHARE_MOUNT_PATH}
+```
+
+`FILE_SHARE_NAME`: name of the file share to mount
+
+`FILE_SHARE_MOUNT_PATH`: mount path in virtual machines.
+
+Once this is done, any files we added to the `FILE_SHARE_NAME` will be available in both Virtual Machines.
