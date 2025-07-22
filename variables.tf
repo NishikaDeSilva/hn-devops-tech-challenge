@@ -9,6 +9,7 @@ variable "subscription_id" {
   type        = string
 }
 
+
 variable "environment" {
   description = "Environment where the resources are deployed"
   default     = "demo"
@@ -28,6 +29,18 @@ variable "jumpbox_allow_ips" {
 variable "ssh_public_key_file_path" {
   description = "File path to the public SSH key used for VM access"
   type        = string
+}
+
+variable "tenant_id" {
+  description = "Azure Tenant ID. Required for Identity and Access Management"
+  type        = string
+  default     = ""
+}
+
+variable "entra_ssh_enabled" {
+  description = "Set true to enable SSH login with Entra ID"
+  type        = bool
+  default     = false
 }
 variable "extra_tags" {
   description = "Extra tags to set in resources"
