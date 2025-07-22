@@ -9,12 +9,12 @@ resource "azurerm_subnet" "az_pvt_subnet" {
   name                 = "${module.naming.subnet.name}-private"
   resource_group_name  = azurerm_resource_group.az_resource_group.name
   virtual_network_name = azurerm_virtual_network.az_vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = [local.private_sn_ip_range]
 }
 
 resource "azurerm_subnet" "az_pub_subnet" {
   name                 = "${module.naming.subnet.name}-public"
   resource_group_name  = azurerm_resource_group.az_resource_group.name
   virtual_network_name = azurerm_virtual_network.az_vnet.name
-  address_prefixes     = ["10.0.2.0/24"]
+  address_prefixes     = [local.public_sn_ip_range]
 }
