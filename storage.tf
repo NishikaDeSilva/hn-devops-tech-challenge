@@ -5,6 +5,12 @@ resource "azurerm_storage_account" "az_storage" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
 
+  network_rules {
+    default_action             = "Deny"
+    virtual_network_subnet_ids = [azurerm_subnet.az_pvt_subnet.id]
+    bypass                     = ["AzureServices"]
+  }
+
   tags = local.tags
 }
 
