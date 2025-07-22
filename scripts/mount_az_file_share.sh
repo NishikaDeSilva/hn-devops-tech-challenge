@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# ==================== This script requires following as ENV vars =====================
+# JUMPHOST_IP
+# VM_IPS
+# REMOTE_USER
+# SSH_KEY_PATH
+# RESOURCE_GROUP_NAME
+# STORAGE_ACCOUNT_NAME
+# =====================================================================================
+
 set -euo pipefail
 
 # Getting args from command line
