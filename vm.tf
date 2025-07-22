@@ -11,6 +11,16 @@ module "private_vm" {
   tags                      = local.tags
 }
 
+resource "azurerm_virtual_machine_extension" "pvt_vm_extentions" {
+  count = var.entra_ssh_enabled ? 2 : 0
+
+  name                 = "pvt-vm-extention-${count.index}"
+  virtual_machine_id   = module.private_vm["${count.index}"].vm_id
+  publisher            = "Microsoft.Azure.ActiveDirectory"
+  type                 = "AADSSHLoginForLinux"
+  type_handler_version = "1.0"
+}
+
 module "jumpbox_vm" {
   source = "./modules/azure_vm"
 
@@ -21,4 +31,13 @@ module "jumpbox_vm" {
   rsa_public_key            = file(var.ssh_public_key_file_path)
   nsg_source_address_prefix = var.jumpbox_allow_ips
   tags                      = local.tags
+}
+
+resource "azurerm_virtual_machine_extension" "vm_extentions" {
+  count                = var.entra_ssh_enabled ? 1 : 0
+  name                 = "jumpbox-vm-extention"
+  virtual_machine_id   = module.jumpbox_vm.vm_id
+  publisher            = "Microsoft.Azure.ActiveDirectory"
+  type                 = "AADSSHLoginForLinux"
+  type_handler_version = "1.0"
 }
