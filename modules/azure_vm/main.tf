@@ -54,3 +54,29 @@ resource "azurerm_linux_virtual_machine" "az_linux_vm" {
 
   tags = var.tags
 }
+
+# Inbound/Outbount traffic control for VM
+resource "azurerm_network_security_group" "az_linux_vm_ngs" {
+  name                = "${var.vm_name}-nic-nsg"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+
+  security_rule {
+    access                     = "Allow"
+    destination_address_prefix = "*"
+    destination_port_range     = "22"
+    direction                  = "Inbound"
+    name                       = "AllowCidrBlockSSHInbound"
+    priority                   = 100
+    protocol                   = "Tcp"
+    source_address_prefixes    = var.nsg_source_address_prefix
+    source_port_range          = "*"
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_network_interface_security_group_association" "vm_nic_nsg_association" {
+  network_interface_id      = azurerm_network_interface.az_nic.id
+  network_security_group_id = azurerm_network_security_group.az_linux_vm_ngs.id
+}

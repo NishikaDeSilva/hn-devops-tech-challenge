@@ -2,21 +2,23 @@
 module "private_vm" {
   source = "./modules/azure_vm"
 
-  count               = 2
-  resource_group_name = azurerm_resource_group.az_resource_group.name
-  subnet_id           = azurerm_subnet.az_pvt_subnet.id
-  vm_name             = "${module.naming.virtual_machine.name}-${count.index}"
-  rsa_public_key      = file(".ssh/hn_rsa.pub")
-  tags                = local.tags
+  count                     = 2
+  resource_group_name       = azurerm_resource_group.az_resource_group.name
+  subnet_id                 = azurerm_subnet.az_pvt_subnet.id
+  vm_name                   = "${module.naming.virtual_machine.name}-${count.index}"
+  rsa_public_key            = file(var.ssh_public_key_file_path)
+  nsg_source_address_prefix = [local.public_sn_ip_range]
+  tags                      = local.tags
 }
 
 module "jumpbox_vm" {
   source = "./modules/azure_vm"
 
-  resource_group_name  = azurerm_resource_group.az_resource_group.name
-  subnet_id            = azurerm_subnet.az_pub_subnet.id
-  vm_name              = "${module.naming.virtual_machine.name}-jumpbox"
-  enable_public_access = true
-  rsa_public_key       = file(".ssh/hn_rsa.pub")
-  tags                 = local.tags
+  resource_group_name       = azurerm_resource_group.az_resource_group.name
+  subnet_id                 = azurerm_subnet.az_pub_subnet.id
+  vm_name                   = "${module.naming.virtual_machine.name}-jumpbox"
+  enable_public_access      = true
+  rsa_public_key            = file(var.ssh_public_key_file_path)
+  nsg_source_address_prefix = var.jumpbox_allow_ips
+  tags                      = local.tags
 }

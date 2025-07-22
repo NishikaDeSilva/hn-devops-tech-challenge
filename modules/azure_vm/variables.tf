@@ -43,6 +43,11 @@ variable "enable_public_access" {
   type        = bool
 }
 
+variable "nsg_source_address_prefix" {
+  description = "Source IP addresses to allow SSH into VM"
+  type        = list(string)
+}
+
 variable "tags" {
   description = "Tags to be added in resources"
   type        = map(any)

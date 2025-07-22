@@ -10,6 +10,9 @@ locals {
     env    = var.environment,
     region = var.location
   }, var.extra_tags)
+
+  private_sn_ip_range = "10.0.1.0/24"
+  public_sn_ip_range  = "10.0.2.0/24"
 }
 
 resource "azurerm_resource_group" "az_resource_group" {
