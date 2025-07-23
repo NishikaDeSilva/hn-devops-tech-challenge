@@ -45,12 +45,18 @@ resource "azurerm_linux_virtual_machine" "az_linux_vm" {
     azurerm_network_interface.az_nic.id
   ]
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
     version   = "latest"
   }
+
+  custom_data = var.cloud_init_script != "" ? base64encode(var.cloud_init_script) : null
 
   tags = var.tags
 }

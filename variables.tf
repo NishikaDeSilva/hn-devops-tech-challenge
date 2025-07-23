@@ -1,7 +1,7 @@
 variable "location" {
   description = "The region where the resources are deployed"
-  default     = "uksouth"
   type        = string
+  default     = "uksouth"
 }
 
 variable "subscription_id" {
@@ -9,10 +9,11 @@ variable "subscription_id" {
   type        = string
 }
 
+
 variable "environment" {
   description = "Environment where the resources are deployed"
-  default     = "demo"
   type        = string
+  default     = "demo"
 
   validation {
     condition     = contains(["demo", "dev", "staging", "prod"], var.environment)
@@ -29,9 +30,28 @@ variable "ssh_public_key_file_path" {
   description = "File path to the public SSH key used for VM access"
   type        = string
 }
+
+variable "tenant_id" {
+  description = "Azure Tenant ID. Required for Identity and Access Management"
+  type        = string
+  default     = ""
+}
+
+variable "entra_ssh_enabled" {
+  description = "Set true to enable SSH login with Entra ID"
+  type        = bool
+  default     = false
+}
+
+variable "entra_id_users" {
+  description = "List of entra ID users to be created"
+  type        = list(string)
+  default     = []
+}
+
 variable "extra_tags" {
   description = "Extra tags to set in resources"
-  default     = {}
   type        = map(any)
+  default     = {}
 }
 

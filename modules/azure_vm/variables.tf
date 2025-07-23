@@ -1,7 +1,7 @@
 variable "location" {
   description = "The region where the resources are deployed"
-  default     = "uksouth"
   type        = string
+  default     = "uksouth"
 }
 
 variable "resource_group_name" {
@@ -46,6 +46,13 @@ variable "enable_public_access" {
 variable "nsg_source_address_prefix" {
   description = "Source IP addresses to allow SSH into VM"
   type        = list(string)
+}
+
+variable "cloud_init_script" {
+  description = "Cloud init script to be added to VM"
+  type        = string
+  sensitive   = true
+  default     = ""
 }
 
 variable "tags" {
