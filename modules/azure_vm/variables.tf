@@ -1,7 +1,7 @@
 variable "location" {
   description = "The region where the resources are deployed"
-  default     = "uksouth"
   type        = string
+  default     = "uksouth"
 }
 
 variable "resource_group_name" {
@@ -51,6 +51,7 @@ variable "nsg_source_address_prefix" {
 variable "cloud_init_script" {
   description = "Cloud init script to be added to VM"
   type        = string
+  sensitive   = true
   default     = ""
 }
 

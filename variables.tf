@@ -1,7 +1,7 @@
 variable "location" {
   description = "The region where the resources are deployed"
-  default     = "uksouth"
   type        = string
+  default     = "uksouth"
 }
 
 variable "subscription_id" {
@@ -12,8 +12,8 @@ variable "subscription_id" {
 
 variable "environment" {
   description = "Environment where the resources are deployed"
-  default     = "demo"
   type        = string
+  default     = "demo"
 
   validation {
     condition     = contains(["demo", "dev", "staging", "prod"], var.environment)
@@ -51,7 +51,7 @@ variable "entra_id_users" {
 
 variable "extra_tags" {
   description = "Extra tags to set in resources"
-  default     = {}
   type        = map(any)
+  default     = {}
 }
 
