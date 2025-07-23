@@ -4,3 +4,7 @@ terraform.tfstate*
 
 # ssh
 .ssh
+azure-sshconfig
+az_ssh_config
+
+files/cloud-init.yml
