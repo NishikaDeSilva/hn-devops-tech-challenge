@@ -42,6 +42,13 @@ variable "entra_ssh_enabled" {
   type        = bool
   default     = false
 }
+
+variable "entra_id_users" {
+  description = "List of entra ID users to be created"
+  type        = list(string)
+  default     = []
+}
+
 variable "extra_tags" {
   description = "Extra tags to set in resources"
   default     = {}
