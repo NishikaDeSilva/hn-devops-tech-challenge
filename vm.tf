@@ -8,17 +8,8 @@ module "private_vm" {
   vm_name                   = "${module.naming.virtual_machine.name}-${count.index}"
   rsa_public_key            = file(var.ssh_public_key_file_path)
   nsg_source_address_prefix = [local.public_sn_ip_range]
+  cloud_init_script         = var.entra_ssh_enabled ? file("files/cloud-init.yml") : ""
   tags                      = local.tags
-}
-
-resource "azurerm_virtual_machine_extension" "pvt_vm_extentions" {
-  count = var.entra_ssh_enabled ? 2 : 0
-
-  name                 = "pvt-vm-extention-${count.index}"
-  virtual_machine_id   = module.private_vm["${count.index}"].vm_id
-  publisher            = "Microsoft.Azure.ActiveDirectory"
-  type                 = "AADSSHLoginForLinux"
-  type_handler_version = "1.0"
 }
 
 module "jumpbox_vm" {
