@@ -48,6 +48,12 @@ variable "nsg_source_address_prefix" {
   type        = list(string)
 }
 
+variable "cloud_init_script" {
+  description = "Cloud init script to be added to VM"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Tags to be added in resources"
   type        = map(any)

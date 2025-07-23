@@ -56,6 +56,8 @@ resource "azurerm_linux_virtual_machine" "az_linux_vm" {
     version   = "latest"
   }
 
+  custom_data = var.cloud_init_script != "" ? base64encode(var.cloud_init_script) : null
+
   tags = var.tags
 }
 
