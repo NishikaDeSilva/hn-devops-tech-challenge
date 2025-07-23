@@ -7,3 +7,8 @@ output "vm_id" {
   description = "ID if the Virtual Machine"
   value       = azurerm_linux_virtual_machine.az_linux_vm.id
 }
+
+output "vm_identity" {
+  description = "Principle ID of the associated managed identity"
+  value       = azurerm_linux_virtual_machine.az_linux_vm.identity.0.principal_id
+}

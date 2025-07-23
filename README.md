@@ -21,7 +21,7 @@ challenge.
 
 ### Connect to Private instance via Jumphost
 
-1. Ideally you need to create a terraform variable (i.e. demo.tfvars) file with following vars added.
+1. Ideally you need to create a terraform variable file (i.e. demo.tfvars) with following vars added.
    
     ```
     location                 = "uksouth"
@@ -45,17 +45,19 @@ challenge.
    terraform plan -var-file demo.tfvars
    terraform apply -var-file demo.tfvars
    ```
-   Note outputs of the deployment `jumpbox_public_ip`, `vm_0_private_ip_address`, `vm_1_private_ip_address`
+   Note outputs of the deployment `jumpbox_public_ip`, `vm_0_private_ip_address`, `vm_1_private_ip_address`, `resource_group_name`, `storage_account_name`
 4. Since we use the same keys file for both jump host and vms, copy the private key into the jump host 
   (In a production environment we should use separate ssh keys to reduce the attack surface in case of a breach)
     ```
-    scp -i {PATH_TO_SSH_KEYS} {user}@{jumpbox_public_ip}:~/.ssh/
+    scp -i {PATH_TO_SSH_KEYS} {PATH_TO_SSH_KEYS} {user}@{jumpbox_public_ip}:~/.ssh/
     ```
     To test the connection SSH into jump host and then into the VM
    ```
    ssh -i {PATH_TO_SSH_KEYS} {user}@{jumpbox_public_ip}
    ssh -i {PATH_TO_SSH_KEYS} {user}@{vm_0_private_ip_address}
    ```
+
+   `user`: Admin Username (default=adminuser)
 
 ### Mount Storage account fileshare. 
 
@@ -66,13 +68,13 @@ export JUMPHOST_IP="{jumpbox_public_ip}"
 export VM_IPS="{vm_0_private_ip_address} {vm_1_private_ip_address}"
 export REMOTE_USER="{user}"
 export SSH_KEY_PATH="{PATH_TO_SSH_KEYS}"
-export RESOURCE_GROUP_NAME="{resource_group}"
+export RESOURCE_GROUP_NAME="{resource_group_name}"
 export STORAGE_ACCOUNT_NAME="{storage_account_name}"
 
 ./scripts/mount_az_file_share.sh {FILE_SHARE_NAME} {FILE_SHARE_MOUNT_PATH}
 ```
 
-`FILE_SHARE_NAME`: name of the file share to mount
+`FILE_SHARE_NAME`: name of the file share to mount (default=local)
 
 `FILE_SHARE_MOUNT_PATH`: mount path in virtual machines.
 
